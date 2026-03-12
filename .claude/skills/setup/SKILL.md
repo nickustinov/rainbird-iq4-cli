@@ -9,6 +9,8 @@ argument-hint: ""
 
 Guide the user through setting up their irrigation schedule management.
 
+**IMPORTANT: This is a read-only setup process. Do NOT modify any controller settings, programs, runtimes, start times, or station assignments. Only read data and create LAWN.md. Any changes to the irrigation schedule must be explicitly requested and confirmed by the user in a separate step.**
+
 ## Step 1 – build the CLI
 
 Check if `iq4-cli` binary exists in the project root. If not, build it:
