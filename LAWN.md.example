@@ -1,0 +1,84 @@
+# Irrigation schedule – [Your location]
+
+Last updated: [date]
+
+## Property
+
+- **Location**: [City, Country] ([lat]°N, [lon]°W)
+- **Soil**: [Sandy / Clay / Loam / Mixed]
+- **Single water pump**: [yes/no] – if yes, no two zones can run simultaneously
+
+## Current schedule ([month] [year])
+
+All watering runs pre-sunrise (~[time]). One run per day per controller.
+
+| Day | Slot 1 | Slot 2 |
+|-----|--------|--------|
+| **Sun** | | |
+| **Mon** | | |
+| **Tue** | | |
+| **Wed** | | |
+| **Thu** | | |
+| **Fri** | | |
+| **Sat** | | |
+
+## Programs
+
+### [Controller name] – [Program name] (program [id], controller [id])
+
+- **Days**: [e.g. Mo, Fr]
+- **Start**: [time]
+- **Seasonal adjust**: [percent]%
+- **Total adjusted runtime**: [minutes]
+
+| # | Station | Sprinkler | Base | Adjusted | Step ID |
+|---|---------|-----------|------|----------|---------|
+| 1 | [name] | [Spray/Rotor/Drip] | [min] | [min] | [id] |
+
+<!-- Repeat for each controller/program -->
+
+## Design rationale
+
+### Base runtimes
+
+Based on sprinkler precipitation rates and soil type:
+
+- **Spray heads** (~40mm/hr): [base] min → ~[mm]mm per run
+- **Rotors** (~15mm/hr): [base] min → ~[mm]mm per run
+- **Drip lines** (~5mm/hr): [base] min → ~[mm]mm per run
+
+### Seasonal adjust
+
+[Month] in [location]: avg [temp range], ET ~[rate]mm/day, ~[rainfall]mm rainfall/month.
+
+### Timing
+
+- All starts before sunrise to reduce evaporation and fungal risk
+- Controllers sequenced with [min] minute gaps on shared days
+- No evening watering (unless cycle-and-soak needed in summer)
+
+## CLI reference
+
+```bash
+# Read
+iq4-cli programs                          # all programs, all controllers
+iq4-cli program <program-id>              # full detail with start times + runtimes
+iq4-cli runtimes <controller-id>          # station runtimes
+iq4-cli start-times <controller-id>       # start times grouped by program
+iq4-cli controllers                       # all controllers with online status
+
+# Modify
+iq4-cli set-adjust <program-id> <percent> # seasonal adjust
+iq4-cli set-days <program-id> <days>      # water days (e.g. MoTh)
+iq4-cli set-runtime <step-id> <duration>  # base runtime (e.g. 10m)
+iq4-cli add-start <program-id> <time>     # add start time
+iq4-cli del-start <program-id> <id>       # delete start time
+iq4-cli add-step <program-id> <station-id>  # assign station to program
+iq4-cli del-step <step-id>                  # remove station from program
+```
+
+## When to revisit
+
+| When | What to check |
+|------|---------------|
+| [month] | [adjustments] |
