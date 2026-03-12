@@ -7,7 +7,7 @@ argument-hint: [status|adjust|apply]
 
 # Irrigation schedule manager
 
-You manage the irrigation schedule for a property in Corroios, Portugal with 5 Rain Bird controllers sharing a single water pump. **No two controllers can water simultaneously.**
+You manage an irrigation schedule for a property with Rain Bird controllers sharing a single water pump. **No two controllers can water simultaneously.**
 
 ## Setup
 
@@ -22,7 +22,7 @@ You manage the irrigation schedule for a property in Corroios, Portugal with 5 R
 Full status check:
 
 1. Read LAWN.md for expected state
-2. Pull live data from all 4 managed controllers using the CLI:
+2. Pull live data from all managed controllers using the CLI:
    ```bash
    iq4-cli controllers
    iq4-cli programs
@@ -49,17 +49,11 @@ Suggest seasonal adjustments for the current month:
 6. Recalculate total adjusted runtimes and verify no overlaps with the new values
 7. Present changes in a clear table, wait for user confirmation before applying
 
-Use these guidelines for Corroios, Portugal:
-
-| Month | ET level | Seasonal adjust range | Frequency |
-|-------|----------|----------------------|-----------|
-| Nov–Feb | Very low | 0–25% or off | 0–1x/week |
-| Mar | Low | 30–45% | 2x/week |
-| Apr | Moderate | 45–60% | 2x/week |
-| May | Moderate–high | 60–80% | 2–3x/week |
-| Jun–Aug | Peak | 80–100% | 3x/week, consider 2 runs/day for spray heads |
-| Sep | Moderate–high | 60–80% | 2–3x/week |
-| Oct | Moderate | 40–55% | 2x/week |
+Use your knowledge of the property's location (from LAWN.md), local climate, ET rates, and soil type to determine appropriate seasonal adjust percentages and watering frequency for the current month. Factor in:
+- Typical temperature and rainfall for the location and month
+- Soil drainage characteristics (noted in LAWN.md)
+- Sprinkler types and their precipitation rates (noted per station in LAWN.md)
+- The review calendar in LAWN.md for any user-specified guidance
 
 When increasing frequency beyond 2x/week, spread days evenly and re-check overlaps. If adding a second daily run (summer cycle-and-soak), the evening run must not overlap with any other controller.
 
@@ -96,9 +90,9 @@ iq4-cli del-step <step-id>                  # remove station from program
 ## Critical rules
 
 1. **Never let controllers overlap.** Always calculate adjusted runtimes (base × seasonal %) and verify gaps between sequential controllers on shared days.
-2. **All watering before sunrise.** Sunrise varies: ~06:50 March, ~06:15 June, ~07:30 December.
+2. **All watering before sunrise.** Look up approximate sunrise time for the property's location and current month.
 3. **Always use the CLI tool**, never raw API/curl calls.
 4. **Update LAWN.md** after any changes so it stays the source of truth.
 5. **Respect exclusions** – check LAWN.md for controllers marked as excluded.
 6. **Base runtimes reflect sprinkler type** – don't change them unless the user asks. Seasonal adjust is the main lever.
-7. **Sandy soil** – drains fast, better to water more frequently at lower volumes than infrequent deep soaks.
+7. **Soil type matters** – check LAWN.md for soil type and adjust strategy accordingly (e.g. sandy soil drains fast and benefits from frequent short runs).
