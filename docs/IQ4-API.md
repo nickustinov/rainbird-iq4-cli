@@ -32,7 +32,7 @@ The login endpoint is protected by AWS WAF JavaScript challenge (`x-amzn-waf-act
 
 ### Username format
 
-Username is the Rain Bird account username (not the email address).
+Username is the Rain Bird account username.
 
 ## API base URL
 

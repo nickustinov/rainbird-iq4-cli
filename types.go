@@ -85,13 +85,20 @@ type StartTime struct {
 
 // Station represents a physical valve zone on a controller.
 type Station struct {
-	ID               int     `json:"id"`
-	Name             string  `json:"name"`
-	SatelliteID      int     `json:"satelliteId"`
-	Terminal         int     `json:"terminal"`
-	YearlyAdjFactor  float64 `json:"yearlyAdjFactor"`
-	ETAdjustFactor   int     `json:"etAdjustFactor"`
-	Priority         int     `json:"priority"`
+	ID                int      `json:"id"`
+	Name              string   `json:"name"`
+	SatelliteID       int      `json:"satelliteId"`
+	Terminal          int      `json:"terminal"`
+	YearlyAdjFactor   float64  `json:"yearlyAdjFactor"`
+	ETAdjustFactor    int      `json:"etAdjustFactor"`
+	Priority          int      `json:"priority"`
+	LandscapeType     string   `json:"areaLevel2Name,omitempty"`
+	SprinklerType     string   `json:"areaLevel3Name,omitempty"`
+	Arc               *float64 `json:"arc,omitempty"`
+	SoilType          *string  `json:"soilType,omitempty"`
+	PrecRate          *float64 `json:"precRateFinal,omitempty"`
+	CropCoefficient   float64  `json:"cropCoefficient,omitempty"`
+	Slope             int      `json:"slope,omitempty"`
 }
 
 // StationRuntime maps a station to its program assignments.

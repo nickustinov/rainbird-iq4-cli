@@ -2,7 +2,27 @@
 
 Command-line tool for the Rain Bird IQ4 cloud API. Manage irrigation schedules, programs, and controllers from the terminal.
 
-Built for use with LLMs – all output is JSON, all commands are composable. Includes Claude Code skills for automated schedule management.
+Built for use with LLMs – all output is JSON, all commands are composable. Includes [Claude Code](https://github.com/anthropics/claude-code) skills for automated schedule management.
+
+## Claude Code skills
+
+This project includes skills that let Claude manage your irrigation schedule through natural language:
+
+### `/setup`
+
+Interactive setup wizard. Guides you through authentication, scans your controllers and stations, detects sprinkler types and landscape settings, and creates a `LAWN.md` file documenting your full irrigation schedule.
+
+### `/irrigation`
+
+Full status check – pulls live data from all controllers, compares against your documented schedule, checks for overlaps, and flags any drift.
+
+### `/irrigation adjust`
+
+Suggests seasonal adjustment changes based on your location's climate and the current month. Accounts for sprinkler types, soil, and pump constraints.
+
+### `/irrigation apply`
+
+Applies the suggested changes via the CLI and updates LAWN.md.
 
 ## Why
 
@@ -13,15 +33,15 @@ Rain Bird's 2.0 app moved schedule management to the IQ4 cloud. The local contro
 Requires Go 1.21+.
 
 ```bash
-git clone https://github.com/your-username/iq4-cli.git
-cd iq4-cli
+git clone https://github.com/nickustinov/rainbird-iq4-cli.git
+cd rainbird-iq4-cli
 go build -o iq4-cli .
 ```
 
 ## Quick start
 
 ```bash
-# Log in with your Rain Bird credentials
+# Log in with your Rain Bird username and password
 ./iq4-cli login <username> <password>
 
 # List all controllers
@@ -34,6 +54,8 @@ go build -o iq4-cli .
 ./iq4-cli program <program-id>
 ```
 
+The CLI handles the full OIDC auth flow automatically. Your JWT token is stored at `~/.iq4/token` with 0600 permissions. Tokens expire after ~2 hours – just re-run `login` when needed.
+
 ## Commands
 
 ### Read
@@ -41,7 +63,7 @@ go build -o iq4-cli .
 ```bash
 iq4-cli sites                             # list all sites
 iq4-cli controllers                       # list all controllers with connection status
-iq4-cli stations <controller-id>          # list stations for a controller
+iq4-cli stations <controller-id>          # list stations (with sprinkler/landscape type)
 iq4-cli programs                          # list all programs across all controllers
 iq4-cli programs <controller-id>          # list programs for a specific controller
 iq4-cli program <program-id>              # full program detail
@@ -69,14 +91,6 @@ iq4-cli login <username> <password>       # authenticate and store token
 iq4-cli logout                            # clear stored token
 ```
 
-## Authentication
-
-```bash
-./iq4-cli login <username> <password>
-```
-
-The CLI handles the full OIDC flow automatically. Your JWT token is stored at `~/.iq4/token` with 0600 permissions. Tokens expire after ~2 hours – just re-run `login` when needed.
-
 ## Output format
 
 All commands output JSON to stdout. Status messages and errors go to stderr. This makes the CLI easy to compose with `jq`, scripts, or LLMs:
@@ -88,26 +102,6 @@ All commands output JSON to stdout. Status messages and errors go to stderr. Thi
 # Check if any controller is offline
 ./iq4-cli controllers | jq '.[] | select(.isConnected == false) | .name'
 ```
-
-## Claude Code skills
-
-If you use [Claude Code](https://github.com/anthropics/claude-code), this project includes skills for automated irrigation management:
-
-### `/setup`
-
-Interactive setup wizard. Guides you through authentication, scans your controllers and stations, and creates a `LAWN.md` file documenting your irrigation schedule.
-
-### `/irrigation`
-
-Full status check – pulls live data from all controllers, compares against your documented schedule, checks for overlaps, and flags any drift.
-
-### `/irrigation adjust`
-
-Suggests seasonal adjustment changes based on your location's climate and the current month. Accounts for sprinkler types, soil, and the single-pump constraint.
-
-### `/irrigation apply`
-
-Applies the suggested changes via the CLI and updates LAWN.md.
 
 ## Data model
 
