@@ -68,17 +68,32 @@ Present the current schedule to the user. Note any issues:
 - Potential overlaps
 - Missing station assignments
 
-## Step 7 – create LAWN.md
+## Step 7 – station-specific notes
+
+Present a summary of all stations across all controllers and ask:
+
+> Do any zones have special conditions I should know about? For example:
+> - Shade (partial, heavy) – affects water needs and swamp risk
+> - Slope or drainage issues
+> - Sensitive plants or new plantings
+> - Areas that tend to flood or stay soggy
+> - Anything else that affects how much or how often to water
+>
+> Just tell me which stations and what the issue is, or say "none" to skip.
+
+Record any notes the user provides – these go in a Notes column on the station tables in LAWN.md.
+
+## Step 8 – create LAWN.md
 
 Using LAWN.md.example as the template, create LAWN.md with:
 - Property details
-- All controller and station info (including sprinkler types)
+- All controller and station info (including sprinkler types and user notes)
 - Current schedule (programs, days, start times, runtimes)
 - Weekly timeline showing all watering windows
 - Design rationale based on sprinkler types and soil
 - Seasonal review calendar based on location climate
 
-## Step 8 – explain next steps
+## Step 9 – explain next steps
 
 Tell the user:
 
