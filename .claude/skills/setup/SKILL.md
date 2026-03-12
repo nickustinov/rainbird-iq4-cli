@@ -19,13 +19,19 @@ cd <project-root> && go build -o iq4-cli .
 
 ## Step 2 – authentication
 
-Ask the user for their Rain Bird username and password, then run:
+Tell the user to run the login command themselves in a separate terminal. **Never ask for their password.** Display this:
 
-```bash
-iq4-cli login <username> <password>
-```
+> Open another terminal and run:
+>
+> ```bash
+> ./iq4-cli login YOUR_USERNAME YOUR_PASSWORD
+> ```
+>
+> This authenticates with Rain Bird and stores a token locally at `~/.iq4/token`. Your password is not stored. The token expires after ~2 hours – re-run login when needed.
+>
+> Let me know when you're logged in.
 
-The CLI handles the full OIDC auth flow. The token is stored at `~/.iq4/token` (0600 permissions, password is not stored). Tokens expire after ~2 hours – re-run login when needed.
+Wait for the user to confirm before proceeding. Then verify the token works by running `./iq4-cli sites` – if it fails, tell the user to try logging in again.
 
 ## Step 3 – scan controllers
 
@@ -33,11 +39,9 @@ Run `iq4-cli controllers` to get all controllers and their online status. Presen
 
 ## Step 4 – scan stations
 
-For each managed controller, run:
-- `iq4-cli stations <controller-id>` for basic info
-- Also fetch full station details from the API to check if landscape/sprinkler types are set (`areaLevel2Name`, `areaLevel3Name` fields from `GetStationListForSatellite`)
+For each managed controller, run `iq4-cli stations <controller-id>`. The output includes `areaLevel2Name` (landscape type) and `areaLevel3Name` (sprinkler type) if configured in the Rain Bird app.
 
-Present each controller's stations. For stations that have landscape/sprinkler info set in IQ4, note it. For stations missing this info, ask the user to describe:
+Present each controller's stations in a table. For stations that have landscape/sprinkler info, note it. For stations missing this info, ask the user to describe:
 - What it waters (lawn, garden beds, ornamental, trees, etc.)
 - Sprinkler type (spray heads, rotors, drip lines, bubblers, etc.)
 - Any special conditions (shade, slope, swamp risk, etc.)
