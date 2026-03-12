@@ -71,14 +71,11 @@ iq4-cli logout                            # clear stored token
 
 ## Authentication
 
-The tool performs an OIDC implicit flow against Rain Bird's IdentityServer4. Your JWT token is stored at `~/.iq4/token` with 0600 permissions (readable only by you). Tokens expire after ~2 hours.
+```bash
+./iq4-cli login <username> <password>
+```
 
-**Note**: Rain Bird's login endpoint is protected by AWS WAF. If the CLI login fails with a "WAF challenge" error, you can obtain a token manually:
-
-1. Log into https://iq4.rainbird.com in your browser
-2. Open DevTools → Network tab
-3. Copy the `access_token` from any API request's Authorization header
-4. Save it: `echo "<token>" > ~/.iq4/token && chmod 600 ~/.iq4/token`
+The CLI handles the full OIDC flow automatically. Your JWT token is stored at `~/.iq4/token` with 0600 permissions. Tokens expire after ~2 hours – just re-run `login` when needed.
 
 ## Output format
 

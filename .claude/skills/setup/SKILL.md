@@ -19,19 +19,13 @@ cd <project-root> && go build -o iq4-cli .
 
 ## Step 2 – authentication
 
-Explain to the user:
-
-> To connect to your Rain Bird IQ4 account, you need to log in with your Rain Bird credentials.
-> Your password is never stored – only the JWT token is saved locally at `~/.iq4/token` with restricted permissions (readable only by you).
-> The token expires after ~2 hours and you'll need to re-login.
->
-> **Note**: If AWS WAF blocks the login (you'll see an error about "WAF challenge"), you can manually obtain a token by logging into https://iq4.rainbird.com in your browser, opening DevTools → Network, and copying the `access_token` from any API request's Authorization header. Then run: `echo "<token>" > ~/.iq4/token`
-
-Then run:
+Ask the user for their Rain Bird username and password, then run:
 
 ```bash
 iq4-cli login <username> <password>
 ```
+
+The CLI handles the full OIDC auth flow. The token is stored at `~/.iq4/token` (0600 permissions, password is not stored). Tokens expire after ~2 hours – re-run login when needed.
 
 ## Step 3 – scan controllers
 
